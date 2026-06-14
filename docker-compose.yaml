@@ -10,12 +10,12 @@ volumes:
   rabbitmq: # docker volume create rabbitmq
 services:
   mongodb:
-    image: kokishore/opt-mongodb:v1
+    image: kokishore/mongodb:v1
     container_name: mongodb
     volumes:
     - mongodb:/data/db
   catalogue:
-    image: kokishore/opt-catalogue:v1
+    image: kokishore/catalogue:v1
     container_name: catalogue
     depends_on:
     - mongodb
@@ -25,24 +25,24 @@ services:
     volumes:
     - redis:/data
   user:
-    image: kokishore/opt-user:v1
+    image: kokishore/user:v1
     container_name: user
     depends_on:
     - redis
     - mongodb
   cart:
-    image: kokishore/opt-cart:v1
+    image: kokishore/cart:v1
     container_name: cart
     depends_on:
     - catalogue
     - redis
   mysql:
-    image: kokishore/opt-mysql:v1
+    image: kokishore/mysql:v1
     container_name: mysql
     volumes:
     - mysql:/var/lib/mysql
   shipping:
-    image: kokishore/opt-shipping:v1
+    image: kokishore/shipping:v1
     container_name: shipping
     depends_on:
     - mysql
@@ -56,7 +56,7 @@ services:
     volumes:
     - rabbitmq:/var/lib/rabbitmq
   payment:
-    image: kokishore/opt-payment:v1
+    image: kokishore/payment:v1
     container_name: payment
     environment:
       CART_HOST: cart
@@ -71,7 +71,7 @@ services:
     - cart
     - user
   frontend:
-    image: kokishore/opt-frontend:v1
+    image: kokishore/frontend:v1
     container_name: frontend
     ports:
     - "80:80"
